@@ -15,11 +15,11 @@ class DatabaseAPI:
         self.connect_db()
         self.create_table()
 
-    def insert_into_table(self, name: str, picture: Binary) -> None:
-        """ Generate a random id, and set our intial class to 0. We can reset later """
+    def insert_into_table(self, name: str, class_type: int, picture: Binary) -> None:
+        """ Generate a random id, the rest is simply using paramters """
 
         self.cursor.execute(self.insert_into_table_query(), [
-                            str(uuid4()), name, 0, picture])
+                            str(uuid4()), name, class_type, picture])
         self.connection.commit()
 
     def insert_into_table_query(self) -> str:
