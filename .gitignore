@@ -1,2 +1,5 @@
 # For Images and .db files 
-/server/db
+server/db
+# pycache
+__pycache__/
+*.py[cod]

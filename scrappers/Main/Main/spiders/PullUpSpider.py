@@ -1,13 +1,17 @@
 from Main.items import MainItem
+from enum import Enum
 import scrapy
-from selenium import webdriver
+
+
+class NextButtonXpath(Enum):
+    RF = "//*[@id='btn_main_nextpg']"
+    GETTY = "//*[@class='search-pagination__button search-pagination__button--next']"
 
 
 class PullUpSpider(scrapy.Spider):
     name = "pull-up-image-spider"
-    # First page does not follow start=page_number*100 rule
-    start_urls = [
-        "https://www.123rf.com/stock-photo/pull_up_workout.html?oriSearch=pull+up+workout|"]
+    start_urls = ["https://www.123rf.com/stock-photo/pull_up.html",
+                  "https://www.gettyimages.com/photos/chin-ups?"]
 
     def parse(self, response):
         # Getting source from all image tags
@@ -17,5 +21,15 @@ class PullUpSpider(scrapy.Spider):
                 imageURL = img_src.extract_first()
                 yield MainItem(file_urls=[imageURL])
 
-        next_button = response.xpath("//*[@id='btn_main_nextpg']")
-        yield scrapy.Request(next_button.xpath("@href").extract_first(), self.parse)
+        base_url = ""
+        next_xpath = ""
+        if "123rf" in response.url:
+            next_xpath = NextButtonXpath.RF
+        elif "gettyimages" in response.url:
+            base_url = "https://www.gettyimages.com"
+            next_xpath = NextButtonXpath.GETTY
+
+        # Go to next page and repeat
+        next_button = response.xpath(next_xpath)
+        print(next_button.xpath("@href").extract_first())
+        yield scrapy.Request(base_url + next_button.xpath("@href").extract_first(), self.parse)
