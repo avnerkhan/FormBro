@@ -1,6 +1,8 @@
 # When run, this file gets output.json, and places at all into one set where there is only one URL to read. Easy
 # Works assuming clean.json and output.json are present and have data
-import json
+import sys
+import os
+sys.path.append(os.getcwd() + "/..")
 from util import read_and_load, write_to_file
 
 data = read_and_load("output.json")
