@@ -89,6 +89,15 @@ function App() {
                   Not a Pullup
               </Button>
               </Col>
+              <Col>
+                <Button
+                  onClick={() => {
+                    fetch(persistJson)
+                  }}
+                >
+                  Persist Json
+              </Button>
+              </Col>
 
             </div>
           ) :
@@ -107,10 +116,5 @@ function App() {
     </div>
   );
 }
-
-//Persist data once the user closes window
-window.addEventListener("beforeunload", ev => {
-  fetch(persistJson);
-});
 
 export default App;
