@@ -24,10 +24,10 @@ class PullUpSpider(scrapy.Spider):
         base_url = ""
         next_xpath = ""
         if "123rf" in response.url:
-            next_xpath = NextButtonXpath.RF
+            next_xpath = NextButtonXpath.RF.value
         elif "gettyimages" in response.url:
             base_url = "https://www.gettyimages.com"
-            next_xpath = NextButtonXpath.GETTY
+            next_xpath = NextButtonXpath.GETTY.value
 
         # Go to next page and repeat
         next_button = response.xpath(next_xpath)
