@@ -15,12 +15,14 @@ class DatabaseAPI:
         self.connect_db()
         self.create_table()
 
-    def insert_into_table(self, name: str, class_type: int, picture: Binary) -> None:
+    def insert_into_table(self, name: str, class_type: int, picture: any) -> None:
         """ Generate a random id, the rest is simply using paramters """
-
-        self.cursor.execute(self.insert_into_table_query(), [
-                            str(uuid4()), name, class_type, picture])
-        self.connection.commit()
+        try:
+            self.cursor.execute(self.insert_into_table_query(), [
+                                str(uuid4()), name, class_type, Binary(picture)])
+            self.connection.commit()
+        except:
+            print("Error in inserting into table.")
 
     def insert_into_table_query(self) -> str:
         return """INSERT INTO """ + self.table_name + """ (id,name, class, picture) VALUES (?, ?, ?, ?);"""
@@ -34,12 +36,18 @@ class DatabaseAPI:
                                 );"""
 
     def create_table(self) -> None:
-        self.cursor.execute(self.create_table_query())
-        self.connection.commit()
+        try:
+            self.cursor.execute(self.create_table_query())
+            self.connection.commit()
+        except:
+            print("Error in creating table.")
 
     def close_connection(self) -> None:
         if self.connection:
-            self.connection.close()
+            try:
+                self.connection.close()
+            except:
+                print("Error in closing connection")
 
     def connect_db(self) -> None:
         try:
