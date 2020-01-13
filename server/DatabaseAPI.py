@@ -15,24 +15,25 @@ class DatabaseAPI:
         self.connect_db()
         self.create_table()
 
-    def insert_into_table(self, name: str, class_type: int, picture: any) -> None:
+    def insert_into_table(self, user_email: str, name: str, class_type: int, picture: any) -> None:
         """ Generate a random id, the rest is simply using paramters """
         try:
             self.cursor.execute(self.insert_into_table_query(), [
-                                str(uuid4()), name, class_type, Binary(picture)])
+                                str(uuid4()), user_email, name, class_type, Binary(picture)])
             self.connection.commit()
         except:
             print("Error in inserting into table.")
 
     def insert_into_table_query(self) -> str:
-        return """INSERT INTO """ + self.table_name + """ (id,name, class, picture) VALUES (?, ?, ?, ?);"""
+        return """INSERT INTO """ + self.table_name + """ (id, userEmail, name, class, picture) VALUES (?, ?, ?, ?);"""
 
     def create_table_query(self) -> str:
         return """CREATE TABLE IF NOT EXISTS """ + self.table_name + """ (
                                     id string PRIMARY KEY ,
+                                    userEmail string NOT NULL
                                     name text NOT NULL,
-                                    class integer,
-                                    picture blob
+                                    class integer NOT NULL,
+                                    picture blob NOT NULL
                                 );"""
 
     def create_table(self) -> None:
