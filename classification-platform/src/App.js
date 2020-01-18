@@ -63,6 +63,7 @@ function App() {
                 <Button
                   onClick={() => {
                     saveImageWithClass(VALID_PULLUP);
+                    setCurrentUnclassifiedImageUrl("")
                     setNewImageUrl();
                   }}
                 >
@@ -73,6 +74,7 @@ function App() {
                 <Button
                   onClick={() => {
                     saveImageWithClass(INVALID_PULLUP);
+                    setCurrentUnclassifiedImageUrl("")
                     setNewImageUrl();
                   }}
                 >
@@ -83,6 +85,7 @@ function App() {
                 <Button
                   onClick={() => {
                     saveImageWithClass(INVALID_IMAGE);
+                    setCurrentUnclassifiedImageUrl("")
                     setNewImageUrl();
                   }}
                 >
@@ -108,6 +111,7 @@ function App() {
         </Row>
         <Button onClick={() => {
           setCurrentMode(currentMode === UNCLASSIFIED_MODE ? CLASSIFIED_MODE : UNCLASSIFIED_MODE)
+          setCurrentClassifiedImageUrl("")
           setNewImageUrl()
         }}>
           Toggle Mode
